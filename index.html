@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="./styles/style.css"/> 
+<link rel="stylesheet" href="./styles/calendar.css"/> 
+<link rel="shortcut icon" href="#">
+<style>
+     #title{
+    width: 400px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+    border-radius:50px;
+    
+    
+    background-color: rgb(24, 22, 22);
+    text-align: center;
+   }
+  #title:hover{
+    color: steelblue;
+}
+table {
+    width: 100%;
+    max-width: 500px;
+    min-width: 300px;
+    border-collapse: collapse;
+    text-align: center;
+    align-self: center;
+    table-layout: fixed;
+    background-color: black;
+}
+.calendar-container{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    padding-bottom: 100px;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+}
+.month{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto auto;
+    min-height: 300px;
+    max-height: 500px;
+    column-count: 7;
+    width: 100%;
+    max-width: 500px;
+    min-width: 300px;
+    justify-items: center;
+    border-radius: 0 0 15px 15px;
+    background-color: rgb(24, 22, 22);
+}
+.weekend {color: white;}
+.day{
+    border-radius: 50%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border:  solid 1px transparent;
+    margin: 10%;
+    /* below tags prevent text from being selectrable
+    * i.e. text will not be highlighted using mouse
+    * or touch in mobiles.
+    */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.week{color: white;}
+.weekend {color: white;}
+.day:hover {
+    background-color: rgba(35, 73, 104, 0.76);
+}
+#calendar{
+    margin-top: px;
+     padding-bottom: 10px;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    margin-bottom: 30px;
+    border-radius: 1em;
+}
+th {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    background-color: rgba(35, 73, 104, 0.76);
+    border-radius:10px;
+    color: white;
+}
+
+.today{
+    border: solid 1px rgb(15, 193, 224);
+    background-color: rgb(8, 170, 199)
+}
+
+.offset{
+    color: hsl(106, 98%, 50%);
+    opacity: 25%;
+
+}
+.month-offset:hover{
+    background-color: rgba(83, 83, 83, 0.253);
+}
+.navButtons{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    min-width: 300px;
+    height: 200px;
+    align-content: space-between;
+    align-items: space-between;
+    justify-content: space-between;
+    max-height: fit-content;
+    border-radius: 1rem 1rem 0px 0px;
+    color: white;
+    margin-top: 1rem;
+}
+#now{
+    align-self: flex-end;
+    padding: 5px;
+    margin: 10px;
+    margin-top: 35px;
+    border-radius: 50%;
+    background-image: radial-gradient(black, transparent);
+}
+#now:hover{
+    color: steelblue;
+}
+.buttons-banner{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    font-size: x-large;
+    align-items: center;
+    justify-content: space-between;
+    background:linear-gradient(to bottom, transparent, black);
+}
+.buttons-banner p:hover{
+    color: steelblue;
+}
+
+.navButtons p {
+    font-size: large;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+@font-face {
+    font-family: 'abysinica';
+    src:  url('../res/abysinica.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'nyala';
+    src:  url('../res/nyala.ttf') format('truetype');
+  }
+  .options{
+    color: white;
+    background-color: brown;
+    position: absolute;
+    top: 35px;
+    right: 80px;
+
+
+    text-align: center;
+    font-size: 20px;
+    border-radius: 50px;
+
+  }
+ .options:hover{
+   background-color: olivedrab;
+   color: whitesmoke;
+ }
+    
+  .me{
+    position: absolute;
+    top: 27px;
+    margin: 10px 5px;
+    background-color: rgb(4, 155, 224);
+    border-radius: 25px;
+    right: 0;
+    color: #fff;
+  }
+  #displayText{
+    position: absolute;
+    top: 55px;
+    right: 55px;
+    background-color: darkslategrey;
+    color: #fff;
+  }
+
+html{
+    margin: 0px;
+    background-color: rgb(235, 83, 13);
+}
+  .silte {
+        height: 100vh; /* Adjust as needed */
+        background: linear-gradient(to right,rgb(212,97,13) 0%, rgb(212,97,13) 33.33%, rgb(255, 250, 250) 33.33%, rgb(255,250,250) 66.66%, #222 66.66%);
+    }
+
+body{
+    margin: auto;
+    font-family: nyala;
+}
+
+#icon {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border-radius: 5px;
+    height:100%; 
+    width:auto;
+    
+  }
+
+#wall{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(14, 146, 199);
+    background-image: linear-gradient(to right, rgb(32, 95, 122), rgb(235, 83, 13));
+    width: 100%;
+    padding: 1rem;
+    box-sizing:border-box;
+    justify-content: space-between;
+    height: 170px;
+    overflow: hidden;
+}
+footer{
+    display: flex;
+    flex-direction: row;
+    background-image: linear-gradient(to right,rgb(12, 72, 112), rgb(21, 77, 122));
+    width: 100%;
+    padding: 1rem;
+    margin-top: 20px;
+    box-sizing:border-box; 
+    height: 50px;
+    justify-content: space-between;
+    align-content: space-around;
+}
+
+#wall h1{
+    font-size: 40px;
+    padding-left: 4rem;
+    align-self: flex-end;
+    font-family: cursive;
+    text-shadow: 2px 2px 4px #000000;
+    
+}
+
+
+h1 {
+    position: absolute;
+    left: 0;
+    top: 13px;
+    border-radius: 5px;
+    font-size: 20PX;
+    padding-right: 150px;
+    color: rgb(42, 165, 134);
+    background-color: rgb(31, 71, 92);
+    text-align: center;
+    
+    
+}
+
+h3{
+    text-align: center;
+    font-size: x-large;
+}
+/* nav start*/
+.navi{
+    flex-direction: row;
+    background-color: rgb(32, 67, 78);
+    box-shadow: 0 4px 8px 0 #00000070, 0 6px 20px 0 #00000050;
+    z-index: 2;
+    height: 10px;
+    width: 100%;
+    position: sticky;
+    justify-content: space-between;
+    align-content: space-around;
+
+
+}
+
+
+.navi a:selection{
+    background-color: rgba(58, 41, 28, 0.5);   
+}
+  
+.navi a {
+    display: block;
+    color: white;
+    position: absolute;
+    left: 60px;
+    top: 0;
+    float: left;
+    padding-right: 30PX;
+    background-color: rgb(30, 65, 82);
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-decoration: none;
+    font-size: 27px;
+}
+.navi a.sandwich{
+    display: block;
+}
+/* nav end*/
+
+#header-logo{
+    display: flex;
+    flex-direction: row;
+    font-style: italic;
+    font-weight: bold;
+    align-items: center;
+    height: 100%;
+    padding: 9px 9px;
+    
+}
+.group{
+    display: flex;
+    direction: inherit;
+    font-style: italic;
+    font-weight: bold;
+    height: 100%;
+}
+
+#header-logo h1{
+    padding-left: 10px;
+}
+
+.active{
+    background: linear-gradient(0deg, #ff4800 8%, transparent 0%);
+    background-repeat: no-repeat;
+}
+
+.container{ 
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    border-radius: 5px;
+    padding-bottom: 100px;
+    flex-wrap: wrap;
+    width: 80%;
+    flex-direction: row;
+}
+.container li{
+    padding: min(10px, 1rem);
+}
+
+.container p{
+    line-height: 2rem; 
+    font-size: larger; 
+}
+.container h4{
+    text-align: center;
+}
+.container h3{
+    margin: 0;
+    padding: 0.5em;
+    color: #0091ff;
+    text-shadow: 1px 0 0 rgb(255, 255, 255), -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+em{
+    color: rgb(0, 255, 149);
+    text-decoration: underline;
+    
+}
+
+#logo{
+    border-radius: 5%;
+    height:100%; 
+    width:auto;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+.paragraph{
+    display: inline-flexbox;
+    flex-basis: fill;
+    text-align: justify;
+    align-self: center;
+    padding: 1em;
+    max-width: 60%;
+    border-radius: 1em;
+    margin: 1%;
+    color: rgb(255, 255, 255);
+}
+.paragraph li{
+    /* so it looks like a cross*/
+    list-style-type: "\2756";
+}
+
+    
+
+
+.dark-line {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 100%;               
+    height: 1px;
+    margin: 0;
+}
+  
+.logo{
+    float: left;
+}
+
+.latin{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+@media screen and (max-width:750px) {
+    .art{
+        max-width: 93%;
+        flex-basis: 100%;
+        max-height: 120%;
+        margin: 2rem;
+        border-radius: 25px;
+    }
+    .navi{
+        border-top: none;
+    }
+
+    .container{
+        width: 100%;
+        padding: 0%;
+        justify-content: space-around;
+    }
+
+    .paragraph{
+        flex-basis: 100%;
+        max-width: 100%;
+        margin: 1em;
+    }
+
+    #wall{
+        flex-direction: column;
+        height: max-content;
+        padding-bottom: 1px;
+        background-image: linear-gradient(rgb(32, 95, 122),);
+    }
+
+    #wall h1{
+        font-size: 30px;
+    }
+
+    #logo{
+        height: 56px;
+        width: 56px;
+    }
+    .navi a:not(.sandwich) {
+        display: block;
+    }
+    .navi a.sandwich{
+        display: none;
+    }
+    
+    .pdanav {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(23, 118, 161);
+        box-shadow: 0 4px 8px 0 #00000070, 0 6px 20px 0 #00000050;
+        z-index: 2;
+        top: 0;
+        width: 100%;
+        text-align: right;
+        position: sticky;
+    }   
+    .pdanav a{
+        float: none;
+        display: block;
+        text-align: right;
+        color: white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        
+        
+    }
+    .pdanav a.sandwich{
+        
+        right: 0;
+        top: 0;
+    }
+    
+    .pdanav a:hover{
+        background-color: rgba(126, 59, 8, 0.5);
+    }
+    
+    .pdanav a:selection{
+        background-color: rgba(58, 41, 28, 0.5);
+    } 
+
+}
+
+
+
+
+
+</style>
+<script>
+    const jOffset = 1803152;
+    const jdnOfEpocH = 2311403; 
+    var message="Provided date is not valid !";
+    /**
+     * @author kedre seman: kedres22atgmail.com
+     */
+    class GeezDate{
+        /**
+         * 
+         * @throws RangeError
+         * @param {Number} year 
+         * @param {Number} month 
+         * @param {Number} dayOfMonth 
+         * @param {Number} dayOfYear 
+         * @param {Number} julianDay 
+         */
+        constructor(year,month,dayOfMonth, dayOfYear,julianDay){
+            var isValidDate=this.validate(year,month,dayOfMonth);
+            try {
+                if(isValidDate){
+                    this.year=year;
+                    this.month=month;
+                    this.dayOfMonth=dayOfMonth;
+                    this.dayOfYear=dayOfYear;
+                    this.julianDay=julianDay;
+                }else{
+                    throw new RangeError(message);
+                }
+                
+            } catch (error) {
+    
+                console.log(error);
+    
+            }
+        }
+    
+        /**
+         * validates Geez Date
+         * @param {Number} year 
+         * @param {Number} month 
+         * @param {Number} dayOfMonth 
+         */
+        validate(year, month, dayOfMonth){
+            try {
+                (Number.isInteger(year)) && (Number.isInteger(month)) && (Number.isInteger(dayOfMonth))==true;
+            } catch (error) {
+                console.log(error+" try catch");
+            }
+            var  areNumbers=(Number.isInteger(year)) && (Number.isInteger(month)) && (Number.isInteger(dayOfMonth));
+            if(!areNumbers){
+                message+= "\n * -- Date parameters must be numbers!";
+            }
+            var areGreaterThanZero= month>0 && dayOfMonth>0;
+            if(!areGreaterThanZero){
+                message+="\n * -- Month and dayOfMonth must be greater than 0!";
+            }
+            var isValidMonth=month<=13;
+            if(!isValidMonth){
+                message+="\n * -- Month is out of range!";
+            }
+            var isValidDate=this.validateDate(year,month,dayOfMonth)
+            if (!isValidDate) {
+                message+="\n * -- Day is out of range for the month!";
+            }
+            return areNumbers && areGreaterThanZero && isValidMonth && isValidDate;
+        }
+    
+        validateDate(year,month,dayOfMonth){
+            if(month!=13){
+                return dayOfMonth<=30;
+            }else{
+                return (year%4==3 && dayOfMonth<=6)|| (year%4!=3 && dayOfMonth<=5);
+            }
+        }    
+    
+        /** 
+         * Date arthimatic( plus and minus )
+         * for subtruction we have to use negative value.
+         * @param {Number}days
+         * @returns GeezDate
+        */
+        plusDays(days){
+            return GeezDate.jdnToGeez(this.julianDay+days);
+        }
+    
+        /** 
+         *year arthimatic( plus and minus )
+         * for subtruction we have to use negative value.
+         * @param {Number}years
+         * @returns GeezDate
+        */
+        plusYears(years){
+            return GeezDate((this.year+years),month,this.dayOfMonth);
+        }
+        dayOne(){
+            return Math.ceil((this.julianDay-this.dayOfMonth)%7);
+        }
+        dayOfWeek(){
+            return Math.round((this.julianDay+0.5)%7)%7;
+        }
+        
+        getMaxDate(){
+            if(this.month!=13){
+                return 30;
+            }else{
+                if(this.year%4==3){
+                    return 6;
+                }else{
+                    return 5;
+                }
+            };
+        }
+    
+        toGregorian(){
+            return new Date((this.julianDay-jdnOfEpocH)*86400000);
+        }
+        
+       
+        /**
+         * Calculates GeezDate from Julian day number.
+         * @param {Number} jdn 
+         * @returns GeezDate
+         */
+        static jdnToGeez (jdn) { // correct multiplication in javascript=Math.imul(number,number) is used instead of number*number.
+            var r = (jdn - jOffset) % 1461; 
+            var n = r%365 + Math.imul/*here*/(365,(r/1460));
+            var year =Math.floor(Math.imul/*here*/(4 , ((jdn - jOffset) / 1461)) + r / 365 - r / 1460);
+            var month = Math.floor(n/30 + 1);
+            var dayOfMonth = Math.floor(n%30 + 1);
+            var dayOfYear = Math.floor((Math.imul/*here*/((month - 1) , 30)) + dayOfMonth);
+            return new GeezDate(year, month, dayOfMonth, dayOfYear,jdn);
+        }
+    
+        /**
+         * 
+         * @param {Number} year 
+         * @param {Number} month 
+         * @param {Number} dayOfMonth 
+         * @returns Julian_day_number
+         */
+        static toJdn(year,month,dayOfMonth){
+    
+            return (( jOffset + 365 )+ Math.imul(365 , ( year - 1 ))+( year/4 )+ Math.imul(30 , month)+ dayOfMonth - 31)
+        }
+    
+        /**
+         * Current date in geez from Unix.time
+         * @returns GeezDate
+         */
+        static now(){
+          
+            var now = new Date().valueOf()
+            
+            var res = now/86400000;
+            return this.jdnToGeez(res+jdnOfEpocH);
+        }
+    
+        /**
+         * directly converts Gregorian Date object ( ፈረንጂ )  to GeezDate object
+         * @param {Date} date 
+         * @returns GeezDate.
+         */
+        static from(date = Date){
+            try {
+                var julianDay = Math.floor((date / 86400000) - (date.getTimezoneOffset()/1440) + jdnOfEpocH);
+                return this.jdnToGeez(julianDay);
+            } catch (error) {
+                console.log(new TypeError("value must be an instance of Date"))
+            }
+        }
+    
+        /**
+         * gets GeezDate Object from dayOfMonth, month and year of a given Geez date. 
+         * eg. if we want a GeezDate object of September 2, 1961 :::-  we would say GeezDate.of(1961,1,2);
+         * @param {Number} year 
+         * @param {Number} month 
+         * @param {Number} dayOfMonth 
+         * @returns GeezDate
+         */
+        static of(year, month, dayOfMonth){ // Validate the given Dates. eg. GeezDate.of(1961,1,31) would return an Exception.
+            var dayOfYear=Math.imul(30,(month-1))+dayOfMonth;
+            var jdn=this.toJdn(year,month,dayOfMonth);
+            return new GeezDate(year,month,dayOfMonth,dayOfYear,jdn);    
+        }
+    
+    }
+</script>
+ <script>
+        const currentDate=GeezDate.now();
+        
+        
+        class Calendar{
+           
+            constructor(constants){
+        
+                this.constants=constants;
+            }
+        
+            showMonth(start){
+        
+               
+                var thisMonth=start.month;
+                var thisYear=start.year;
+        
+                
+                var firstDay=start.dayOfWeek();
+        
+                
+                var weekDays=this.constants.week;
+                
+               
+                var displayedMonth=this.constants.getMonth(start.month)
+                
+                start=start.plusDays(-firstDay);
+        
+               
+                document.getElementById("title").innerHTML=displayedMonth+", <span class=\"latin\">"+thisYear+"</span>";
+        
+               
+                var bar=document.getElementById("calendarNav");
+                
+               
+                bar.style.background="url('./res/"+thisMonth+".webp')";
+                bar.style.backgroundPosition="center";
+                bar.style.backgroundSize="cover";
+                
+                
+                var html ="<table>";
+                html+="<tr style=\"padding:3px;\">";
+                html+="<th class=\"weekend\">"+weekDays[0]+"</th><th>"+weekDays[1]+"</th><th>"+
+                    weekDays[2]+"</th><th>"+weekDays[3]+"</th><th>"+weekDays[4]+"</th><th>"+
+                    weekDays[5]+"</th><th class=\"weekend\">"+
+                weekDays[6]+"</th></tr></table>";
+        
+               
+                html+="<div class=\"month\" id=\"mon\">";
+        
+                
+                for(let i=0;i<42;i++){
+        
+                    html+="<li class =\"day ";
+        
+                   
+                    if(start.month==thisMonth){
+        
+                       
+                        if((i%7==0 )|| ((i)%7==6)){
+                            html+="weekend ";
+                        }else{
+                            html+="week ";
+                        }
+                       
+                        if(start.dayOfMonth==currentDate.dayOfMonth
+                            && thisMonth==currentDate.month
+                            && thisYear==currentDate.year){
+                                html+="today";
+                        }
+        
+                    }else{ 
+                        html+="offset";
+                    }
+        
+                   
+                    html+="\">";
+        
+                    
+                    html+=String(start.dayOfMonth).padStart(2,"0")+"</li>";
+        
+                   
+                    start=start.plusDays(1);
+               }
+        
+              
+               html+="</div>";
+               return html;
+            }
+        }
+    </script>
+    <script>
+    const latinYear=["MESKEREM","TIKIMTI","HIDAR","TAHSAS","TIRI","LEKATIT","MEGABIT","MIYAZYA","GINBOT","SENE","HAMLE","NEHASE","PAGUMIE"]
+    const geezYear=["መሰሮ","ጢቂምት","ሂዳር","መሼ","ኢንቶጎት","መንገስ","ወቶ","መዜ","አስሬ","ሰኜ","አምሌ","ናሴ","ቃቅሜ"]
+    const latinWeek=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+    const geezWeek =["ግድር","ኡጠት","መገር","አርጴ","ከምስ","ጂማት","አንሰ"];
+    class Constants{
+    
+        constructor(locale){
+            this.locale=locale;
+            this.setDaysOfWeek();
+            this.setMonthsOfYear();
+        }
+            
+        
+        setLocale(locale){
+            this.locale=locale;
+            this.setDaysOfWeek();
+            this.setMonthsOfYear();
+        }
+        setMonthsOfYear(){
+            if(this.locale=="iso"){
+                this.months=latinYear;
+            } else{
+                this.months=geezYear;
+            }
+        }
+        setDaysOfWeek(){
+            if(this.locale=="iso"){
+                this.week= latinWeek;
+            } else{
+                this.week=geezWeek;
+            }
+        }
+        getDayOfWeek(value){
+            return this.week[value];
+        }
+    
+        getMonth(month){
+            return this.months[month-1];
+        }
+    }
+</script>
+   
+    
+<html>
+<body><div class="silte">
+      <script>
+        var dateToday = GeezDate.now();
+       
+        var m=dateToday.month;                    
+        var y=dateToday.year;                   
+        var calendarMonth=GeezDate.of(y,m,1);   
+        var constants=new Constants("Geez")
+        var calendar=new Calendar(constants);
+    </script>
+    <nav class="navi" id="menu">
+        <div id="header-logo" >
+            <img id="icon" src="https://pbs.twimg.com/media/EywrroZW8AIDBOq?format=jpg&name=large" style="height: 30px;"/>
+            <h1><script> 
+           
+            document.write("<span class=\"latin\">"+(dateToday.dayOfMonth)+"</span>"+
+                        " "+constants.getMonth(dateToday.month)+", <span class=\"latin\">"+(dateToday.year)+"</span> ሂ.ዘ"); </script></h1>
+            
+        </div>
+        <div>
+            <a href="javascript:void(0);" class="sandwich" onclick="myFunction()">
+                   <i class="fa fa-bars "></i></a>
+
+            <a>የስልጤ አያም ኢልቅ</a>
+            <div ><button class="me" onclick="ToggleText()" >contact-us</button></div>
+            <p id="displayText"></p>
+            <script>
+                function ToggleText(){
+                    var displayElement = document.getElementById("displayText");
+                    if (displayElement.innerText ===""){
+                        displayElement.innerText="KEDRE APPS\n website and app developer \nName=kedre seman\n Email=kedres22@gmail.com\n Telegram=@kedres \n website=https://kedres.blogspot.com/ "; 
+                    } else {displayElement.innerText="";}
+                }
+            </script>
+            
+            <div>
+              <select id="monthselector" class="options">
+  <option value="1">መሰሮ</option>
+  <option value="2">ጢቂምት</option>
+  <option value="3">ሂደር</option>
+  <option value="4">መሼ</option>
+  <option value="5">ኢንቶጎት</option>
+  <option value="6">መንገስ</option>
+  <option value="7">ወቶ</option>
+  <option value="8">ማዜ</option>
+  <option value="9">አስሬ</option>
+  <option value="10">ሰኜ</option>
+  <option value="11">አምሌ</option>
+  <option value="12">ናሴ</option>
+  <option value="13">ቃቅሜ</option>
+</select>
+<script>
+    document.getElementById("monthselector").addEventListener("change", function() {
+        var selectedMonth = parseInt(this.value);
+        var calendarCard = document.getElementById("calendar");
+        
+        
+        calendarMonth = GeezDate.of(y, selectedMonth, 1);
+        
+        
+        calendarCard.innerHTML = calendar.showMonth(calendarMonth);
+    });
+</script>
+
+
+            </div>
+        </div>
+        </nav>
+    
+<div class="container">
+    <div class="calendar-container">
+        <script>
+        
+        </script> 
+        
+        <div id="calendarNav" class="navButtons">
+
+            
+            <div id="now" onclick="ressetCalendar()" ><i class="fa fa-calendar-day fa-2x"></i></div>
+            <div class="buttons-banner">
+                <p id="back"><span class="fa fa-chevron-left fa-2x"></span></p>
+                <h4 id="title"></h4>
+                <p id="next"><span class="fa fa-chevron-right fa-2x"></span></p>
+            </div>
+        </div>
+
+        <div id="calendar">
+        </div>
+        
+
+
+        <script>
+        
+
+           
+            var calendarCard=document.getElementById("calendar"); 
+
+            
+            calendarCard.innerHTML=calendar.showMonth(calendarMonth); 
+
+            
+            var next=document.getElementById("next"); 
+            next.addEventListener("click", nextMonth);
+
+            
+            var back=document.getElementById("back");
+            back.addEventListener("click", prevMonth);
+
+            
+            var title=document.getElementById("title"); 
+            title.addEventListener("click",ressetCalendar);
+
+           
+            function nextMonth(){
+                if(m<13){
+                   
+                    m=m+1;
+                }else{
+                    
+                    m=1;
+                    
+                    y=y+1;
+                }
+                
+                calendarMonth=GeezDate.of(y,m,1);
+                
+                calendarCard.innerHTML=calendar.showMonth(calendarMonth);
+            }
+
+            function prevMonth(){ 
+                if(m>1){
+                    m=m-1;
+                }else{
+                    m=13;
+                    y=y-1;
+                }
+                calendarMonth=GeezDate.of(y,m,1);
+                calendarCard.innerHTML=calendar.showMonth(calendarMonth);
+            }
+
+            function ressetCalendar(){
+                var onThisMonth = (m==dateToday.month && y== dateToday.year);
+               
+
+                if( !onThisMonth ){
+                    y=dateToday.year;
+                    m=dateToday.month;
+                    calendarMonth=GeezDate.of(y,m,1);
+                    calendarCard.innerHTML=calendar.showMonth(calendarMonth);
+                }
+            }
+        </script>
+    </div>
+</div>
+
+<script>
+    
+    var icon = document.getElementById("icon");
+    var Logo = document.getElementById("logo");
+    var navBar = document.getElementById("menu");
+    
+   
+    window.onscroll = function() {scrollFunction()};
+    
+   
+    function myFunction() {
+        var navBar = document.getElementById("menu");
+        if (navBar.className === "navi") {
+            navBar.className = "pdanav";
+        } else {
+            navBar.className = "navi";
+        }
+    }
+
+
+      if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        Logo.style.visibility = "hidden";
+        icon.style.visibility = "Visible";
+      } else {
+        Logo.style.visibility = "visible";
+        icon.style.visibility = "hidden";
+      }
+    
+    
+    function clickEvents(){
+        var day=document.getElementsByClassName("day");
+        day.addEventListener("click", showDate)
+        
+    }
+</script>
+ 
+</body>
+</html>
